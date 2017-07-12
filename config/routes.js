@@ -13,7 +13,7 @@ module.exports = function(){
 	});
 
 	// URL mapping Controller
-	router.get('/', App.home);
+	router.get('/home', App.home);
 
 	return router;
 
