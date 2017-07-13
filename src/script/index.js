@@ -1,1 +1,1 @@
-console.log('index.js');
+import '../style/reset.scss';

@@ -22,5 +22,42 @@ module.exports = {
 			filename: '../index.html',
 			template: 'src/views/index.html'
 		})
-	]
+	],
+	module: {
+		rules: [
+			{
+				test: /\.css$/,
+				// 新特性 use 代替 loader
+				use: [
+					'style-loader', 
+					{ 
+						loader: 'css-loader', 
+						// 解析时，遇到 @import时，退到前一loader（postcss-loader）处理
+						options: { importLoaders: 1 }
+					},
+					{
+						loader: 'postcss-loader',
+						options: {
+							// 预处理 css中，配置 自动加兼容前缀 plugin
+							plugins: loader => [ require('autoprefixer')() ]
+						}
+					}
+				]
+			},
+			{
+				test: /\.scss$/,
+				use: [
+					'style-loader', 
+					'css-loader', 
+					{ 
+						loader: 'postcss-loader', 
+						options: {
+							plugins: loader => [ require('autoprefixer')() ]
+						}
+					}, 
+					'sass-loader'
+				]
+			}
+		]
+	}
 }
