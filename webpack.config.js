@@ -26,6 +26,18 @@ module.exports = {
 	module: {
 		rules: [
 			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						// 引入 解析jsx语法 的预置模块
+						presets: [['latest'], ['react']],
+						plugins: []
+					}
+				}
+			},
+			{
 				test: /\.css$/,
 				// 新特性 use 代替 loader
 				use: [
