@@ -5,17 +5,31 @@ module.exports = {
 
 	entry: {
 		// entry 中，必须用 ./ 开头
-		main: './src/script/index.js'
+		main: './src/script/entry.js'
 	},
 	output: {
 		// 打包生成文件的 根路径
 		path: __dirname + '/dist/static/',
-		// 生成html文件中，引用此 js时，前置路径
+		// 1. 生成html文件中，引用此 js时，前置路径
 		// webpack publicPath 配合 koa-static, 把静态文件都匹配路由，暴露出去
 		//   而 html等，页面入口，不被暴露
-		publicPath: '',
+
+		// 2. publicPath 设为 绝对路径前缀。
+		// 这样koa-static 暴露出去的 静态文件 都能在 webpack打包文件中，准确被路由到。
+		// 而不受 html文件的 path 影响，出现404
+		publicPath: '/',
+		// filename 只允许 相对路径。。。
 		filename: 'js/[name].js'
 	},
+	// 自动解析 import 文件
+	resolve: {
+		// 当为找到 import文件时，自动补全 import 文件 扩展名（后缀）再次查找
+		// 补全 优先级 顺序为 从左到右（即 第1次没找到，补.js; 第2次又没找到，补.jsx）
+		extensions: ['.js', '.jsx']
+	},
+	// 源代码 map (开发工具)
+	// 开发调试时，可以 debug 到 webpack 打包前的 源代码，便于调试。
+	devtool: 'source-map',
 	plugins: [
 		new htmlWebpackPlugin({
 			// 通过../ 使html 生成在 打包文件根路径的上层
@@ -26,7 +40,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.jsx?$/,
 				exclude: /node_modules/,
 				use: {
 					loader: 'babel-loader',
