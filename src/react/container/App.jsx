@@ -17,6 +17,7 @@ class App extends Component {
 
 // 从 state 中，处理出 部分数据，传入 connect绑定的组件
 function select (state) {
+	// 返回一个obj
 	return {
 		// 可见todo 数组
 		VisibilityTodos: state.todos.filter(item => {
@@ -34,7 +35,7 @@ function select (state) {
 	}
 }
 
-// 通过 connect，把 state、dispatch 传入 组件
+// 通过 connect，把 state、dispatch 传入 组件(智能化 组件)
 	// 1、connect 向 select中，传入 state
 	// 2、select 返回值 作为 props 传入 App
 	// 3、同时 dispatch 也会一同 传入 App
