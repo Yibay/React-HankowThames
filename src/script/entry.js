@@ -10,7 +10,11 @@ import todoApp from '../react/reducer/todoApp';
 
 
 // reducer 构造 store
-let store = createStore(todoApp);
+let store = createStore(
+	todoApp,
+	// 用于 在Chrome中，用 redux DevTools 调试
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 render(
 	// 根节点 上存放 store
