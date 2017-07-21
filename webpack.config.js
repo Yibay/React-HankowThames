@@ -83,6 +83,24 @@ module.exports = {
 					}, 
 					'sass-loader'
 				]
+			},
+			{
+				// 把 字体 svg 与 图片 svg 区分开
+				test: /iconfont\.(eot|svg|ttf|woff)/,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							// 可以设置 outputPath、publicPath
+							name: 'font/[name].[ext]',
+							// 小于 8192 Byte，使用 base64编码
+							limit: 8192
+						}
+					},
+					{
+						loader: 'img-loader'
+					}
+				],
 			}
 		]
 	}

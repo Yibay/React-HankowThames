@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 class AddTodo extends Component {
 	render () {
 		return <div>
+			<i className='iconfont icon-liuyanfill'></i>
 			<input ref='todo_text' type='text' />
 			<button onClick={this.addTodo.bind(this)} >添加</button>
 		</div>;

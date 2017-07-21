@@ -1,4 +1,5 @@
 import '../style/reset.scss';
+import '../font/iconfont.css';
 
 import React from 'react'; // 使用 react-dom，必须引入 React
 import { render } from 'react-dom';
