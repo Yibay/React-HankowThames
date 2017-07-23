@@ -86,7 +86,7 @@ module.exports = {
 			},
 			{
 				// 把 字体 svg 与 图片 svg 区分开
-				test: /iconfont\.(eot|svg|ttf|woff)/,
+				test: /iconfont\.(eot|svg|ttf|woff)$/,
 				use: [
 					{
 						loader: 'url-loader',
@@ -101,6 +101,33 @@ module.exports = {
 						loader: 'img-loader'
 					}
 				],
+			},
+			{
+				// 字体图标，用了 svg，这里就不能用 svg了，否则，会再生成一个
+				test: /\.(jpg|jpeg|png|gif)$/,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							// 防止 image同名、用[path]区分下 路径
+							name: '[path][name].[ext]',
+							// outputPath: 用于存放 图片
+							// output.path 后；
+							// file-loader.name 前;
+							// 加的 字段。
+							outputPath: 'images/',
+							// publicPath: 用于 对外暴露url
+							// 例：import time_png from './images/time.png';
+							// time_png 为 publicPath + outputPath + name
+							// 即：/images/src/react/components/Footer/images/time.png
+							publicPath: '/',
+							limit: 8192
+						}
+					},
+					{
+						loader: 'img-loader'
+					}
+				]
 			}
 		]
 	}
