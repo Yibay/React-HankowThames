@@ -2,36 +2,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { addTodo, toggleTodo, setVisibilityFilter, VisibilityFilters } from '../actions/todoApp';
+import { addTodo, toggleTodo, VisibilityFilters } from '../actions/todoApp';
 import AddTodo from '../components/AddTodo/index';
 import TodoList from '../components/TodoList/index';
 import Footer from '../components/Footer/index'
 
 // 将 actions 打包成一个对象
-const actionCreators = { addTodo, toggleTodo, setVisibilityFilter };
+const actionCreators = { addTodo, toggleTodo };
 
 class App extends Component {
 	render () {
-		console.log('render');
 		// 技巧1: 从 props中，获取属性，缩短书写
-		const { Todos, addTodo, toggleTodo, setVisibilityFilter } = this.props;
+		const { Todos, addTodo, toggleTodo } = this.props;
 		return <div>
 			<AddTodo onAddClick={text => {addTodo(text);} } />
 			<TodoList todos={Todos} onToggleClick={index => {toggleTodo(index);}} />
-			<Footer />
+			<Footer current_filter={this.props.match.params.filter} />
 		</div>
-	}
-	componentDidMount () {
-		const { addTodo } = this.props;
-		addTodo('lalala');
-		addTodo('xixixi');
-		addTodo('dododo');
-		addTodo('hahaha');
-	}
-	// 此时 未render, this.props 还未更新
-	// 可以用 参数nextProps 获取到将要更新的 props
-	componentWillUpdate (nextProps) {
-		nextProps.setVisibilityFilter(nextProps.match.params.filter);
 	}
 }
 
