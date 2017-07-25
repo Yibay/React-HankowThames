@@ -12,12 +12,13 @@ const actionCreators = { addTodo, toggleTodo, setVisibilityFilter };
 
 class App extends Component {
 	render () {
+		console.log('render');
 		// 技巧1: 从 props中，获取属性，缩短书写
-		const { VisibilityFilter, VisibilityTodos, addTodo, toggleTodo, setVisibilityFilter } = this.props;
+		const { Todos, addTodo, toggleTodo, setVisibilityFilter } = this.props;
 		return <div>
 			<AddTodo onAddClick={text => {addTodo(text);} } />
-			<TodoList todos={VisibilityTodos} onToggleClick={index => {toggleTodo(index);}} />
-			<Footer filter={VisibilityFilter} onFilterChange={nextFilter => setVisibilityFilter(nextFilter)} />
+			<TodoList todos={Todos} onToggleClick={index => {toggleTodo(index);}} />
+			<Footer />
 		</div>
 	}
 	componentDidMount () {
@@ -27,15 +28,20 @@ class App extends Component {
 		addTodo('dododo');
 		addTodo('hahaha');
 	}
+	// 此时 未render, this.props 还未更新
+	// 可以用 参数nextProps 获取到将要更新的 props
+	componentWillUpdate (nextProps) {
+		nextProps.setVisibilityFilter(nextProps.match.params.filter);
+	}
 }
 
 // 从 state 中，筛选出 部分数据，传入 connect绑定的组件
-function mapStateToProps (state) {
+function mapStateToProps (state, ownProps) {
 	// 返回一个obj
 	return {
 		// 可见todo 数组
-		VisibilityTodos: state.todos.filter(item => {
-			switch(state.visibilityFilter) {
+		Todos: state.todos.filter(item => {
+			switch(ownProps.match.params.filter) {
 				case VisibilityFilters.SHOW_ALL:
 					return true;
 				case VisibilityFilters.SHOW_COMPLETED:
@@ -43,9 +49,7 @@ function mapStateToProps (state) {
 				case VisibilityFilters.SHOW_ACTIVE:
 					return !item.completed;
 			}
-		}),
-		// 可见 条件str
-		VisibilityFilter: state.visibilityFilter
+		})
 	}
 }
 
