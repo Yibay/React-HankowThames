@@ -11,6 +11,7 @@ import Footer from '../components/Footer/index'
 const actionCreators = { addTodo, toggleTodo };
 
 class App extends Component {
+
 	render () {
 		// 技巧1: 从 props中，获取属性，缩短书写
 		const { Todos, addTodo, toggleTodo } = this.props;
